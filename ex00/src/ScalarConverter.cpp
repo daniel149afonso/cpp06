@@ -12,16 +12,15 @@ int toInt(const std::string &str)
 	return nb;
 }
 
-
 void ScalarConverter::convert(std::string str)
 {
 	try{
+		std::isalpha(str);
 		int nb;
-		nb = std::stoi(str);
+		std::stringstream(str) >> nb;
+		std::cout << nb << std::endl;
 	}
 	catch(const std::exception& e){
 		std::cerr << "int: impossible" << std::endl;
 	}
-	
-
 }
