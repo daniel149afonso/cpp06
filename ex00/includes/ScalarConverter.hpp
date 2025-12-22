@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 
 class ScalarConverter{
 	public:
