@@ -6,7 +6,7 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 19:35:52 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/12/22 22:29:38 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/12/22 23:39:08 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,28 @@ bool isNumber(std::string str)
 
 void	convertToChar(std::string str)
 {
-	int ret = std::isprint(std::atoi(str.c_str()));
+	int ret = std::atoi(str.c_str());
 	int ret1 = std::isprint(7);
 
 	std::cout << "Value: "<< ret << std::endl;
 	std::cout << "Value: "<< ret1 << std::endl;
 	//Traitement d'un seul char
-	if (str.size() == 1 && isascii(std::atoi(str.c_str()))
-		&& std::isprint(str[0]))
+	if (str.size() == 1 && isascii(std::atoi(str.c_str())))
 	{
-		if (std::isdigit(std::atoi(str.c_str())))
-			std::cout << "char: " << (char)str[0] <<std::endl;
+		if(std::isprint((int)str[0]))
+		{
+			if (std::isdigit(std::atoi(str.c_str())))
+				std::cout << "char: " << (char)str[0] <<std::endl;
+			else
+				std::cout << "char: '" << str.c_str() << "'" <<std::endl;
+		}
 		else
-			std::cout << "char: " << str.c_str() <<std::endl;
+			std::cerr << "char: Non displayable\n";
 	}
-	else if (isascii(std::atoi(str.c_str()))
+	else if (isascii(std::atoi(str.c_str()))// pour les nombres
 		&& std::isprint(std::atoi(str.c_str())) && isNumber(str))
 	{
-		std::cout << "char: " << (char)std::atoi(str.c_str()) <<std::endl;
+		std::cout << "char: '" << (char)std::atoi(str.c_str()) <<std::endl;
 	}
 	else
 		std::cerr << "char: impossible\n";
