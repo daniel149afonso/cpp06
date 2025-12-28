@@ -6,13 +6,13 @@
 /*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 19:35:52 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/12/22 23:39:08 by daniel149af      ###   ########.fr       */
+/*   Updated: 2025/12/27 17:21:18 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ScalarConverter.hpp"
 
-void	convertToInt(const std::string &str)
+void	convertToInt(const std::string str)
 {
 	int nb;
 	std::stringstream ss(str);
@@ -23,51 +23,59 @@ void	convertToInt(const std::string &str)
 		std::cout << "int: "<< nb << std::endl;
 }
 
-bool isNumber(std::string str)
-{
-	bool isdigit = true;
-	for (size_t i = 0; i < str.size(); i++)
-	{
-		if (!std::isdigit(str[i]))
-		{
-			isdigit = false;
-			break;
-		}
-	}
-	return (isdigit);
-}
-
 void	convertToChar(std::string str)
 {
-	int ret = std::atoi(str.c_str());
-	int ret1 = std::isprint(7);
-
-	std::cout << "Value: "<< ret << std::endl;
-	std::cout << "Value: "<< ret1 << std::endl;
-	//Traitement d'un seul char
-	if (str.size() == 1 && isascii(std::atoi(str.c_str())))
+	if (str.size() == 1)
 	{
-		if(std::isprint((int)str[0]))
-		{
-			if (std::isdigit(std::atoi(str.c_str())))
-				std::cout << "char: " << (char)str[0] <<std::endl;
-			else
-				std::cout << "char: '" << str.c_str() << "'" <<std::endl;
-		}
+		if (std::isdigit(str[0]))
+			std::cerr << "char: Non displayable" << std::endl;
 		else
-			std::cerr << "char: Non displayable\n";
-	}
-	else if (isascii(std::atoi(str.c_str()))// pour les nombres
-		&& std::isprint(std::atoi(str.c_str())) && isNumber(str))
-	{
-		std::cout << "char: '" << (char)std::atoi(str.c_str()) <<std::endl;
+			std::cout << "char: "<< str[0] << std::endl;
 	}
 	else
-		std::cerr << "char: impossible\n";
+	{
+		int nb;
+		std::stringstream ss(str);
+		ss >> nb;
+		if (ss.fail() || !ss.eof())
+			std::cerr << "char: impossible" << std::endl;
+		else
+		{
+			if (isascii(nb))
+			{
+				if (std::isprint(nb))
+				std::cout << "char: "<< (char)nb << std::endl;
+				else
+					std::cerr << "char: Non displayable" << std::endl;
+			}
+			else
+				std::cerr << "char: impossible" << std::endl;
+		}
+	}
+}
+
+void convertToFloat(std::string str)
+{
+	float nb;
+	char *endptr;
+
+	nb = std::strtof(str.c_str(), &endptr);
+	if (!nb)
+		std::cerr << "float: impossible\n";
+	else
+	{
+		if (nb == (int)nb) //
+			std::cout << "float: "<< std::fixed << std::setprecision(1)
+				<< nb << "f" << std::endl;
+		else
+			std::cout << "float: "
+				<< nb << "f" << std::endl;
+	}
 }
 
 void	ScalarConverter::convert(std::string str)
 {
 	convertToChar(str);
 	convertToInt(str);
+	convertToFloat(str);
 }
