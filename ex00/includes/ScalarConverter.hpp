@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <iomanip>
+#include <limits>
+
 
 class ScalarConverter{
 	public:

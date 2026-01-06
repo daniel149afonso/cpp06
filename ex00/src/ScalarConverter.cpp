@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: danielafonso <danielafonso@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 19:35:52 by daniel149af       #+#    #+#             */
-/*   Updated: 2025/12/27 17:21:18 by daniel149af      ###   ########.fr       */
+/*   Updated: 2026/01/05 20:45:19 by danielafons      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	convertToInt(const std::string str)
 	int nb;
 	std::stringstream ss(str);
 	ss >> nb;
-	if (ss.fail() || !ss.eof()) //eof() evite que "42abc" soit accepté
+	if (ss.fail() || !ss.eof()) //eof() avoid chars after the value "42abc" should not be allowed
 		std::cerr << "int: impossible\n";
 	else
 		std::cout << "int: "<< nb << std::endl;
@@ -37,14 +37,14 @@ void	convertToChar(std::string str)
 		int nb;
 		std::stringstream ss(str);
 		ss >> nb;
-		if (ss.fail() || !ss.eof())
+		if (ss.fail() || !ss.eof())//check also overflows int max etc
 			std::cerr << "char: impossible" << std::endl;
 		else
 		{
 			if (isascii(nb))
 			{
 				if (std::isprint(nb))
-				std::cout << "char: "<< (char)nb << std::endl;
+				std::cout << "char: "<< static_cast<char>(nb) << std::endl;
 				else
 					std::cerr << "char: Non displayable" << std::endl;
 			}
@@ -60,17 +60,22 @@ void convertToFloat(std::string str)
 	char *endptr;
 
 	nb = std::strtof(str.c_str(), &endptr);
-	if (!nb)
-		std::cerr << "float: impossible\n";
-	else
+	if (nb >= std::numeric_limits<float>::min() && nb <= std::numeric_limits<float>::max())
 	{
-		if (nb == (int)nb) //
-			std::cout << "float: "<< std::fixed << std::setprecision(1)
-				<< nb << "f" << std::endl;
+		if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
+		{
+			if (nb == static_cast<int>(nb)) // equivalent to (int)nb it's more c++ user friendly
+				std::cout << "float: "<< std::fixed << std::setprecision(1)
+					<< nb << "f" << std::endl;
+			else
+				std::cout << "float: "
+					<< nb << "f" << std::endl;
+		}
 		else
-			std::cout << "float: "
-				<< nb << "f" << std::endl;
+			std::cerr << "float: impossible\n";
 	}
+	else
+		std::cerr << "float: impossible\n";
 }
 
 void	ScalarConverter::convert(std::string str)

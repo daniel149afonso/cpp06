@@ -1,6 +1,7 @@
 # Prerequisites
 *.d
 convert
+*._map.md
 
 # Object files
 *.o
