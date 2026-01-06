@@ -6,7 +6,7 @@
 /*   By: danielafonso <danielafonso@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 19:35:52 by daniel149af       #+#    #+#             */
-/*   Updated: 2026/01/05 20:45:19 by danielafons      ###   ########.fr       */
+/*   Updated: 2026/01/06 14:30:28 by danielafons      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,48 @@ void convertToFloat(std::string str)
 	char *endptr;
 
 	nb = std::strtof(str.c_str(), &endptr);
-	if (nb >= std::numeric_limits<float>::min() && nb <= std::numeric_limits<float>::max())
+	if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
 	{
-		if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
-		{
-			if (nb == static_cast<int>(nb)) // equivalent to (int)nb it's more c++ user friendly
-				std::cout << "float: "<< std::fixed << std::setprecision(1)
-					<< nb << "f" << std::endl;
-			else
-				std::cout << "float: "
-					<< nb << "f" << std::endl;
-		}
+		std::cout << "nb='" << nb << "'\n";
+		if (isinf(nb) && nb > 0)
+			std::cout << "-" << endptr << "f" << std::endl;
+		else if (isinf(nb) && nb < 0)
+			std::cout << "+" << endptr << "f" << std::endl;
+		else if (nb == static_cast<int>(nb)) // equivalent to (int)nb it's more c++ user friendly
+			std::cout << "float: "<< std::fixed << std::setprecision(1)
+				<< nb << "f" << std::endl;
 		else
-			std::cerr << "float: impossible\n";
+			std::cout << "float: "
+				<< nb << "f" << std::endl;
 	}
 	else
 		std::cerr << "float: impossible\n";
+	std::cout << "rest='" << endptr << "'\n";
+
+}
+
+void convertToDouble(std::string str)
+{
+	float nb;
+	char *endptr;
+
+	nb = std::strtof(str.c_str(), &endptr);
+	if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
+	{
+		if (isinf(nb) && nb > 0)
+			std::cout << "-" << endptr << "f" << std::endl;
+		else if (isinf(nb) && nb < 0)
+			std::cout << "+" << endptr << "f" << std::endl;
+		else if (nb == static_cast<int>(nb)) // equivalent to (int)nb it's more c++ user friendly
+			std::cout << "float: "<< std::fixed << std::setprecision(1)
+				<< nb << "f" << std::endl;
+		else
+			std::cout << "float: "
+				<< nb << "f" << std::endl;
+	}
+	else
+		std::cerr << "float: impossible\n";
+	std::cout << "rest='" << endptr << "'\n";
 }
 
 void	ScalarConverter::convert(std::string str)
@@ -83,4 +109,5 @@ void	ScalarConverter::convert(std::string str)
 	convertToChar(str);
 	convertToInt(str);
 	convertToFloat(str);
+	
 }
