@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danielafonso <danielafonso@student.42.f    +#+  +:+       +#+        */
+/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 19:35:52 by daniel149af       #+#    #+#             */
-/*   Updated: 2026/01/06 14:30:28 by danielafons      ###   ########.fr       */
+/*   Updated: 2026/01/06 19:57:17 by daniel149af      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,35 @@ void convertToFloat(std::string str)
 	char *endptr;
 
 	nb = std::strtof(str.c_str(), &endptr);
+	
+	//nothing has been converted
+	if (endptr == str.c_str())
+	{
+		std::cout << "float: impossible\n";
+		return;
+	}
 	if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
 	{
-		std::cout << "nb='" << nb << "'\n";
-		if (isinf(nb) && nb > 0)
-			std::cout << "-" << endptr << "f" << std::endl;
-		else if (isinf(nb) && nb < 0)
-			std::cout << "+" << endptr << "f" << std::endl;
+		// std::cout << "nb='" << nb << "'\n";//debug
+		if (std::isnan(nb))
+			std::cout << "float: nanf" << std::endl;
+		else if (std::isinf(nb) && nb > 0)
+			std::cout << "float: +inff" << std::endl;
+		else if (std::isinf(nb) && nb < 0)
+			std::cout << "float: -inff" << std::endl;
 		else if (nb == static_cast<int>(nb)) // equivalent to (int)nb it's more c++ user friendly
-			std::cout << "float: "<< std::fixed << std::setprecision(1)
-				<< nb << "f" << std::endl;
+		{
+			std::ostringstream oss;
+			oss << std::fixed << std::setprecision(1) << nb;
+			std::cout << oss.str();
+		}
 		else
 			std::cout << "float: "
 				<< nb << "f" << std::endl;
 	}
 	else
 		std::cerr << "float: impossible\n";
-	std::cout << "rest='" << endptr << "'\n";
+	// std::cout << "rest='" << endptr << "'\n";//debug
 
 }
 
@@ -88,10 +100,10 @@ void convertToDouble(std::string str)
 	nb = std::strtof(str.c_str(), &endptr);
 	if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
 	{
-		if (isinf(nb) && nb > 0)
-			std::cout << "-" << endptr << "f" << std::endl;
-		else if (isinf(nb) && nb < 0)
+		if (std::isinf(nb) && nb > 0)
 			std::cout << "+" << endptr << "f" << std::endl;
+		else if (std::isinf(nb) && nb < 0)
+			std::cout << "-" << endptr << "f" << std::endl;
 		else if (nb == static_cast<int>(nb)) // equivalent to (int)nb it's more c++ user friendly
 			std::cout << "float: "<< std::fixed << std::setprecision(1)
 				<< nb << "f" << std::endl;
