@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniel149afonso <daniel149afonso@studen    +#+  +:+       +#+        */
+/*   By: danielafonso <danielafonso@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 19:35:52 by daniel149af       #+#    #+#             */
-/*   Updated: 2026/01/06 19:57:17 by daniel149af      ###   ########.fr       */
+/*   Updated: 2026/01/12 13:12:31 by danielafons      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,22 @@
 
 void	convertToInt(const std::string str)
 {
-	int nb;
-	std::stringstream ss(str);
-	ss >> nb;
-	if (ss.fail() || !ss.eof()) //eof() avoid chars after the value "42abc" should not be allowed
+	long nb;
+	char *endptr;
+	errno = 0;
+
+	nb = std::strtod(str.c_str(), &endptr);
+	//nb = std::strtol(str.c_str(), &endptr, 10);
+	if (endptr == str.c_str() || *endptr != '\0') //Check errors
 		std::cerr << "int: impossible\n";
+	else if (errno == ERANGE || //Check overflow of long and int max and min
+    	nb < std::numeric_limits<int>::min() ||
+    	nb > std::numeric_limits<int>::max())
+	{
+		std::cerr << "int: impossible\n";
+	}
 	else
-		std::cout << "int: "<< nb << std::endl;
+		std::cout << "int: "<< static_cast<int>(nb) << std::endl;
 }
 
 void	convertToChar(std::string str)
@@ -44,7 +53,7 @@ void	convertToChar(std::string str)
 			if (isascii(nb))
 			{
 				if (std::isprint(nb))
-				std::cout << "char: "<< static_cast<char>(nb) << std::endl;
+				std::cout << "char: '"<< static_cast<char>(nb) << "'" << std::endl;
 				else
 					std::cerr << "char: Non displayable" << std::endl;
 			}
@@ -69,7 +78,6 @@ void convertToFloat(std::string str)
 	}
 	if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
 	{
-		// std::cout << "nb='" << nb << "'\n";//debug
 		if (std::isnan(nb))
 			std::cout << "float: nanf" << std::endl;
 		else if (std::isinf(nb) && nb > 0)
@@ -78,18 +86,19 @@ void convertToFloat(std::string str)
 			std::cout << "float: -inff" << std::endl;
 		else if (nb == static_cast<int>(nb)) // equivalent to (int)nb it's more c++ user friendly
 		{
+			//Case 1: accurate number ex: 42.0
 			std::ostringstream oss;
-			oss << std::fixed << std::setprecision(1) << nb;
-			std::cout << oss.str();
+			oss << std::fixed << std::setprecision(1) << nb << "f";
+			std::cout << "float: " << oss.str() << std::endl;
 		}
 		else
-			std::cout << "float: "
-				<< nb << "f" << std::endl;
+		{
+			//Case 2: decimal number ex: 42.42
+			std::cout << "float: " << nb << "f" << std::endl;
+		}
 	}
 	else
 		std::cerr << "float: impossible\n";
-	// std::cout << "rest='" << endptr << "'\n";//debug
-
 }
 
 void convertToDouble(std::string str)
@@ -98,22 +107,36 @@ void convertToDouble(std::string str)
 	char *endptr;
 
 	nb = std::strtof(str.c_str(), &endptr);
+	
+	//nothing has been converted
+	if (endptr == str.c_str())
+	{
+		std::cout << "float: impossible\n";
+		return;
+	}
 	if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
 	{
-		if (std::isinf(nb) && nb > 0)
-			std::cout << "+" << endptr << "f" << std::endl;
+		if (std::isnan(nb))
+			std::cout << "float: nanf" << std::endl;
+		else if (std::isinf(nb) && nb > 0)
+			std::cout << "float: +inff" << std::endl;
 		else if (std::isinf(nb) && nb < 0)
-			std::cout << "-" << endptr << "f" << std::endl;
+			std::cout << "float: -inff" << std::endl;
 		else if (nb == static_cast<int>(nb)) // equivalent to (int)nb it's more c++ user friendly
-			std::cout << "float: "<< std::fixed << std::setprecision(1)
-				<< nb << "f" << std::endl;
+		{
+			//Case 1: accurate number ex: 42.0
+			std::ostringstream oss;
+			oss << std::fixed << std::setprecision(1) << nb << "f";
+			std::cout << "float: " << oss.str() << std::endl;
+		}
 		else
-			std::cout << "float: "
-				<< nb << "f" << std::endl;
+		{
+			//Case 2: decimal number ex: 42.42
+			std::cout << "float: " << nb << "f" << std::endl;
+		}
 	}
 	else
 		std::cerr << "float: impossible\n";
-	std::cout << "rest='" << endptr << "'\n";
 }
 
 void	ScalarConverter::convert(std::string str)
