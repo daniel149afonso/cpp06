@@ -2,6 +2,7 @@
 *.d
 convert
 serialize
+base
 *._map.md
 
 # Object files
