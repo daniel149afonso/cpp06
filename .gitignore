@@ -1,6 +1,7 @@
 # Prerequisites
 *.d
 convert
+serialize
 *._map.md
 
 # Object files
