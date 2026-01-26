@@ -22,7 +22,8 @@ char, int, float, double
 
 En gérant :
 
-nan, nanf, +inf, -inf, +inff, -inff
+nan: représente une valeur à virgule flottante indéfinie ou non représentable, résultant d'opérations invalides comme racine de -1.
+nanf, +inf, -inf, +inff, -inff
 
 les erreurs (impossible)
 
