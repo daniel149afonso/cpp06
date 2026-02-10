@@ -6,7 +6,7 @@
 /*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 19:35:52 by daniel149af       #+#    #+#             */
-/*   Updated: 2026/02/10 17:23:48 by daafonso         ###   ########.fr       */
+/*   Updated: 2026/02/10 18:27:24 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	convertToChar(std::string str)
 			if (isascii(nb))
 			{
 				if (std::isprint(nb))
-				std::cout << "char: '"<< static_cast<char>(nb) << "'" << std::endl;
+					std::cout << "char: '"<< static_cast<char>(nb) << "'" << std::endl;
 				else
 					std::cerr << "char: Non displayable" << std::endl;
 			}
@@ -127,10 +127,8 @@ void convertToDouble(std::string str)
 
 	//nothing has been converted
 	if (endptr == str.c_str())
-	{
-		std::cout << "double: impossible\n";
-		return;
-	}
+		return (void) (std::cout << "double: impossible\n");
+
 	if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
 	{
 		if (std::isnan(nb))
