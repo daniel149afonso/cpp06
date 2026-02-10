@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danielafonso <danielafonso@student.42.f    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 19:35:52 by daniel149af       #+#    #+#             */
-/*   Updated: 2026/01/13 10:14:34 by danielafons      ###   ########.fr       */
+/*   Updated: 2026/02/10 17:23:48 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void convertToInt(const std::string str)
     char* endptr;
     errno = 0;
     double nb;
-	
+
 	nb = std::strtod(str.c_str(), &endptr);
 
     if (endptr == str.c_str())
@@ -57,13 +57,13 @@ void	convertToChar(std::string str)
 
 		if (endptr == str.c_str())
 			return (void) (std::cerr << "char: impossible" << std::endl);
-		
+
 		if (std::isnan(nb) || std::isinf(nb))
 			return (void) (std::cerr << "char: impossible" << std::endl);
-		
+
 		if (std::floor(nb) != nb)
 			return (void) (std::cerr << "char: impossible" << std::endl);
-		
+
 		if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
 		{
 			if (isascii(nb))
@@ -88,11 +88,11 @@ void convertToFloat(std::string str)
 	char *endptr;
 
 	nb = std::strtof(str.c_str(), &endptr);
-	
+
 	//nothing has been converted
 	if (endptr == str.c_str())
 		return (void) (std::cout << "float: impossible\n");
-		
+
 	if (endptr[0] == '\0' || (endptr[0] == 'f' && endptr[1] == '\0'))
 	{
 		if (std::isnan(nb))
@@ -124,7 +124,7 @@ void convertToDouble(std::string str)
 	char *endptr;
 
 	nb = std::strtod(str.c_str(), &endptr);
-	
+
 	//nothing has been converted
 	if (endptr == str.c_str())
 	{
