@@ -34,6 +34,8 @@ Base* Base::generate(void)
 
 void Base::identify(Base* p)
 {
+	if (!p)
+         return;
     if (dynamic_cast<A*>(p))
         std::cout << "A\n";
     else if (dynamic_cast<B*>(p))
