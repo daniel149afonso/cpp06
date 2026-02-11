@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Base.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danielafonso <danielafonso@student.42.f    +#+  +:+       +#+        */
+/*   By: daafonso <daafonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 12:35:41 by danielafons       #+#    #+#             */
-/*   Updated: 2026/01/14 17:16:53 by danielafons      ###   ########.fr       */
+/*   Updated: 2026/02/10 17:27:33 by daafonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <unistd.h>
+#include <ctime>
 
 class Base {
     public:
@@ -25,14 +26,14 @@ class Base {
 };
 
 class A: public Base {
-    
+
 };
 
 class B: public Base {
-    
+
 };
 
 class C: public Base {
-    
+
 };
 #endif
