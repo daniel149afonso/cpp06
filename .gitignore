@@ -4,6 +4,7 @@ convert
 serialize
 base
 *._map.md
+*.DS_Store
 
 # Object files
 *.o
